@@ -11,7 +11,7 @@ CHUNK = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 2
 RATE = 16000
-RECORD_SECONDS = 3
+RECORD_SECONDS = 5
 WAVE_OUTPUT_FILENAME = "output.wav"
 
 p = pyaudio.PyAudio()
@@ -49,10 +49,11 @@ f = open("output.flac")
 data = f.read()
 f.close()
 
-req = urllib2.Request('https://www.google.com/speech-api/v1/recognize?xjerr=1&client=chromium&lang=pt-BR', data=data, headers={'Content-type': 'audio/x-flac; rate=16000'})
+req = urllib2.Request('https://www.google.com/speech-api/v2/recognize?output=json&lang=pt-BR&key=', data=data, headers={'Content-type': 'audio/x-flac; rate=16000'})
 
 ret = urllib2.urlopen(req)
 
 #print ret.read()
-text = json.loads(ret.read())['hypotheses'][0]['utterance']
+#text = json.loads(ret.read())['result'][0]
+text = json.loads(ret.read())
 print text
